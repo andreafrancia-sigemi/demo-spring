@@ -4,10 +4,10 @@ import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-public class FailingTest {
+public class FailingButFixedTest {
     @Test
-    void not_ok() {
+    void not_not_ok() {
         var result = 1 + 1;
-        assertEquals(1, result);
+        assertEquals(2, result);
     }
 }
