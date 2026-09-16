@@ -48,7 +48,13 @@ jobs:
     steps:
       - name: Checkout del codice
         uses: actions/checkout@v6
-      - run: mvn dependency:resolve
+      - uses: actions/setup-java@v6
+        with:
+          java-version: '21'
+          distribution: 'temurin'
+          cache: maven
+
+      - run: mvn dependency:go-offline
 
       - name: Esegui Trivy Vulnerability Scanner
         uses: aquasecurity/trivy-action@master
