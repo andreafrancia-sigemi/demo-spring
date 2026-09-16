@@ -36,3 +36,31 @@ jobs:
           name: Report Test JUnit
           path: target/surefire-reports/*.xml
           reporter: java-junit
+  # Scansione delle Dipendenze (Librerie)
+  dependency-scan:
+    name: Scan Dependencies
+    runs-on: ubuntu-latest
+    permissions:
+      security-events: write # Permette di pubblicare i risultati nel tab Security
+
+    steps:
+      - name: Checkout del codice
+        uses: actions/checkout@v6
+
+      - name: Esegui Trivy Vulnerability Scanner
+        uses: aquasecurity/trivy-action@master
+        with:
+          scan-type: 'fs' # Scansiona il file system (troverà il pom.xml o build.gradle)
+          scan-ref: "."
+          ignore-unfixed: true
+          format: 'sarif' # Formato standard per i report di sicurezza
+          output: 'trivy-results.sarif'
+          exit-code: '1'
+          severity: 'CRITICAL,HIGH' # Segnala solo i problemi gravi
+          cache: 'true'  # on by default
+
+      - name: Pubblica i risultati su GitHub Security
+        uses: github/codeql-action/upload-sarif@v3
+        if: always()
+        with:
+          sarif_file: 'trivy-results.sarif'
