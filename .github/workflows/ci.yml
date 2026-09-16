@@ -48,6 +48,7 @@ jobs:
     steps:
       - name: Checkout del codice
         uses: actions/checkout@v6
+      - run: mvn dependency:resolve
 
       - name: Esegui Trivy Vulnerability Scanner
         uses: aquasecurity/trivy-action@master
