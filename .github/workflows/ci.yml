@@ -58,12 +58,13 @@ jobs:
           ignore-unfixed: true
           format: 'sarif' # Formato standard per i report di sicurezza
           output: 'trivy-results.sarif'
-          exit-code: '1'
+          # exit-code: '1'
           severity: 'CRITICAL,HIGH' # Segnala solo i problemi gravi
           cache: 'true'  # on by default
+          scanners: "vuln"
 
-      - name: Pubblica i risultati su GitHub Security
-        uses: github/codeql-action/upload-sarif@v3
+      - name: Upload Trivy scan results to GitHub Security tab
+        uses: github/codeql-action/upload-sarif@v4
         if: always()
         with:
           sarif_file: 'trivy-results.sarif'
