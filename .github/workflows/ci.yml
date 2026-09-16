@@ -26,6 +26,8 @@ jobs:
           cache: maven # Velocizza il download delle dipendenze
       - run: java --version
 
+      - run: mvn dependency:resolve
+
       - name: Esegui i test con Maven
         run: mvn -B test --file pom.xml
 
